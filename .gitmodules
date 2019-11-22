@@ -1,0 +1,3 @@
+[submodule "spectral-secrets"]
+	path = spectral-secrets
+	url = https://github.com/aibhleog/spectral-secrets
