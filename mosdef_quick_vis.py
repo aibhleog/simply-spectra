@@ -46,6 +46,7 @@ def showme(id_gal,date,ycen,xlims,aper=7,savefig=False,see=True):
 		        date:		str, date the data were taken
 		        ycen:		int, row of the center of the emission (or thing of interest)
 				xlims:		list, two integers describing the wavelength range of interest
+				aper:		int, number of rows to extract the 1D spectrum over
 				savefig:	bool, save the figure in the private repo?
 				see:		bool, allow the plt.show() line?
 				
