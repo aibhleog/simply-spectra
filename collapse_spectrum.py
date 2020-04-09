@@ -8,6 +8,7 @@ Currently just using this code for one galaxy in particular.
 import numpy as np
 import matplotlib.pyplot as plt
 import astropy.io.fits as fits
+from astropy.stats import mad_std
 import os
 
 __author__ = 'Taylor Hutchison'
@@ -44,17 +45,23 @@ error = fits.getdata(path + id_gal + '_sig.fits')
 print(f'Dimensions: \t signal spectrum {signal.shape}\n' +
 		f'\t\t error spectrum {error.shape}',end='\n\n')
 
-# pixel scale
-pixelscale = header['PSCALE'] # arcseconds/pixel
+# y center of the object (via the DRP)
+ycen = abs(header['CRVAL2']) # pixels
 
 # collapsing spectrum over the spectral direction
 profile = np.nansum(signal,axis=1) # in case there are NaNs
+med,mad = np.nanmedian(profile), mad_std(profile,ignore_nan=True)
 
 plt.figure(figsize=(9,6))
 plt.plot(profile)
+plt.axhline(med,lw=2.,ls=':',color='k')
 
-med = np.nanmedian(profile)
-plt.ylim(med-med*0.2, med+med*0.3)
+plt.axvspan(28,42.5,zorder=0,alpha=0.2,label='contamination?')
+plt.axvline(29.98,color='r',lw=4,ls=':',label='detected location')
+plt.axvline(ycen,color='g',lw=3,label='sugg. center (via DRP)')
+
+plt.legend()
+plt.ylim(med-mad*3, med+mad*3)
 plt.xlabel('spatial axis [pixels]')
 plt.ylabel('flux')
 
@@ -65,7 +72,7 @@ if os.path.exists(f'spectral-secrets/vis/{date}') == False:
 plt.savefig(f'spectral-secrets/vis/{date}/profile_{id_gal}.pdf')
 print('Figure saved.')
 	
-plt.show()
+#plt.show()
 plt.close('all')
 
 
