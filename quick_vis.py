@@ -19,6 +19,9 @@ import matplotlib.pyplot as plt
 import astropy.io.fits as fits
 import os
 
+__author__ = 'Taylor Hutchison'
+__email__ = 'aibhleog@tamu.edu'
+
 # for the optimized extraction shape
 def gaussian(xaxis, mean, A, sig, offset): 
 	'''
@@ -103,7 +106,7 @@ def showme(id_gal,date,ycen,xlims,aper=7,savefig=False,see=True):
 		if os.path.exists(f'spectral-secrets/quick_vis/{date}') == False:
 			print(f'Creating spectral-secrets/quick_vis/{date} directory.')
 			os.system(f'mkdir spectral-secrets/quick_vis/{date}')
-		plt.savefig(f'spectral-secrets/quick_vis/{date}/{id_gal[:-8]}.pdf')
+		plt.savefig(f'spectral-secrets/quick_vis/{date}/{id_gal}.pdf')
 		print('Figure saved.')
 	
 	if see == True: plt.show()
