@@ -14,8 +14,8 @@ __author__ = 'Taylor Hutchison'
 __email__ = 'aibhleog@tamu.edu'
 
 
-# -- prompting user for galaxy ID name & date of observation -- #
-# -- ID of galaxy
+# -- prompting user for mask name & date of observation -- #
+# -- Mask name
 mask = input('Type mask name & then press Enter:  ')
 # making sure something was entered
 assert len(mask) > 0, f"Need to enter a mask name. "\

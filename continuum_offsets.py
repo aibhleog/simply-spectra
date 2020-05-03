@@ -28,8 +28,8 @@ home = '/run/media/aibhleog/eve_lily/observing-keck/'
 path2d = 'rebecca_reductions/ContaminationSubtracted/'
 
 
-# -- prompting user for galaxy ID name & date of observation -- #
-# -- ID of galaxy
+# -- prompting user for mask name, observation cycle, & date of observation -- #
+# -- Mask name & cycle
 mask_cycle = input('Type mask name & cycle with no spaces (ex. special_mask,2020B)\n & then press Enter:  ')
 # making sure something was entered
 assert len(mask_cycle) > 0, f"Need to enter an mask & cycle. "\
