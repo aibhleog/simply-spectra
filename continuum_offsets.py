@@ -47,7 +47,7 @@ print(f'Date entered: "{date}"',end='\n\n')
 
 targets = pd.read_csv(f'spectral-secrets/masks/{cycle}/{mask}.coords',sep='\s+',\
 	names=['id','pri','mag','hh','hm','hs','dd','dm','ds','j2','j22','z','zz'])
-targets.drop(index=targets.index.values[len(targets)-4:],inplace=True)
+targets.drop(index=targets.index.values[len(targets)-4:],inplace=True) # alignment stars
 
 offsets = pd.DataFrame({'id_gal':[],'offset':[],'ycen':[],'mean':[],'A':[],'sig':[],'C':[]})
 for id_gal in targets.id.values:
