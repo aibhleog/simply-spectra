@@ -98,7 +98,7 @@ def showme(id_gal,date,ycen,xlims,aper=7,savefig=False,see=True):
 	plt.legend()
 	plt.ylabel('flux')
 	plt.xlabel('wavelength [microns]')
-	plt.title(f'Quick Vis of {date}/{id_gal}')
+	plt.title(f'Quick Vis of {date} / {id_gal}')
 
 	# saving figure -- first checking if directory in the 
 	# 'spectral-secrets' private repo exists; if not, making one
