@@ -17,7 +17,7 @@ __email__ = 'aibhleog@tamu.edu'
 # for the emission line profiles
 def gaussian(xaxis, mean, A, sig, offset): 
 	'''
-	Simple Gaussian function
+	Simple Gaussian functionc
 	'''
 	return A * np.exp(-np.power(xaxis-mean, 2.) / (2*np.power(sig, 2.))) + offset
 
