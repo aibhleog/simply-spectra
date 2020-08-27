@@ -98,43 +98,59 @@ print()
 # ---------------------------------------------------------- #
 # -- running through all models to build table of offsets -- #
 # ---------------------------------------------------------- #
-offsets = pd.DataFrame({'zneb':[],'u':[],'offset':[],'age':[],'mass':[],'stars':[]})
+zstellar = [0.1,0.2,0.3,0.5]
+zneb = [0.1,0.3,0.5]
+
+offsets = pd.DataFrame({'z':[],'zneb':[],'u':[],'offset':[],'age':[],'mass':[],'stars':[]})
 for stars in ['binary','single']:
     print('For stars:',stars)
+    
     for mass in [300,100]:
         print('For mass:',mass)
-        for neb in zneb:
-            print('For Z_neb:',neb)
-            for ion in u:
-                print('For logU:',round(ion,1),end=',\t')
-                # pulling model spectrum
-                spec = get_cloudy_spec(f'{stars}_cont_{mass}',mass,age,neb,ioni=ion)
-                spec['wavelength'] *= 1e4
-                spec['spectrum'] /= (2.998e18/spec.wavelength.values) # nu*Fnu --> Fnu
+        
+        for met in zstellar: # stellar metallicity
+            print('For Z_stellar:',met)
+            
+            for neb in zneb: # nebular metallicity
+                # checking for when stellar == nebular when it's 0.3 or 0.5
+                if neb == 0.1 and met == 0.3: pass # no need to run this model twice
+                elif neb == 0.1 and met == 0.5: pass # no need to run this model twice
+                else:
+                    # need to check if matches stellar
+                    if neb == 0.1: neb = met # fix nebular to stellar metallicity
+                    print('For Z_neb:',neb)
 
-                # zooming in around CIV
-                spec = spec.query('1490 < wavelength < 1610').copy()
-                spec['spectrum'] /= np.median(spec.spectrum.values) # normalizing it
-                spec = reorder_spectrum(spec) # Cloudy orders it backwards
+                    for ion in u:
+                        print('For logU:',round(ion,1),end=',\t')
+                        # pulling model spectrum
+                        spec = get_cloudy_spec(f'{stars}_cont_{mass}',mass,age,met,zneb=neb,ioni=ion)
+                        spec['wavelength'] *= 1e4
+                        spec['spectrum'] /= (2.998e18/spec.wavelength.values) # nu*Fnu --> Fnu
 
-                # fitting the CIV emission
-                # gaussian(xaxis, mean, A, sig, offset)
-                try:
-                    popt,pcov = curve_fit(gaussian,spec.wavelength,spec.spectrum,p0=[1548,1,2,1])
+                        # zooming in around CIV
+                        spec = spec.query('1490 < wavelength < 1610').copy()
+                        spec['spectrum'] /= np.median(spec.spectrum.values) # normalizing it
+                        spec = reorder_spectrum(spec) # Cloudy orders it backwards
 
-                    # calculating offset
-                    offset = velocity_offset(popt[0],civ)
-                    print(f'offset: {round(offset,2)} km/s')
+                        # fitting the CIV emission
+                        # gaussian(xaxis, mean, A, sig, offset)
+                        try:
+                            popt,pcov = curve_fit(gaussian,spec.wavelength,spec.spectrum,p0=[1548,1,2,1])
 
-                except OptimizeWarning:
-                    print('Bad fit/no emission detected.')
-                    offset = np.nan
+                            # calculating offset
+                            offset = velocity_offset(popt[0],civ)
+                            print(f'offset: {round(offset,2)} km/s')
 
-                filldf = pd.DataFrame({'zneb':[neb],'u':[ion],'offset':[round(offset,3)],\
-                                          'age':[int(age)],'mass':[int(mass)],'stars':[stars]})
-                offsets = offsets.append(filldf,ignore_index=True)
+                        except OptimizeWarning:
+                            print('Bad fit/no emission detected.')
+                            offset = np.nan
 
-            print()
+                        filldf = pd.DataFrame({'z':[met],'zneb':[neb],'u':[ion],'offset':[round(offset,3)],\
+                                                  'age':[int(age)],'mass':[int(mass)],'stars':[stars]})
+                        offsets = offsets.append(filldf,ignore_index=True)
+
+                print()
+            print(end='\n\n')
         print(end='\n\n')
     print(end='\n\n\n')
 

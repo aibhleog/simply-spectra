@@ -3,6 +3,7 @@ import pandas as pd
 import scipy.integrate as integrate
 from scipy.interpolate import interp1d
 from calzetti import * # written by TAH
+import os
 
 __author__ = 'Taylor Hutchison'
 __email__ = 'aibhleog@tamu.edu'
@@ -272,7 +273,7 @@ def get_cloudy_calzetti(ebv,input_df,manual=False,ioni=[1.]):
     full_df = full_df[cols]
     return full_df # spectrum in units of vFv [erg/s/cm^2]
 
-def get_cloudy_ew(line,input_df,manual=False,ioni=[1.]):
+def get_cloudy_ew(line,input_df,manual=False,raw='n'):
     '''
     Purpose:
     Calculates the equivalent width (EW) of a given line.
@@ -304,28 +305,28 @@ def get_cloudy_ew(line,input_df,manual=False,ioni=[1.]):
     else:
         print('Wrong line provided.',end='\n\n')
 
-    try:
-        len(ioni)
-    except TypeError: # if not an array or list
-        ioni = np.asarray(ioni)
 
-    if manual == True: # this just allows me to use this function when I manually run a Cloudy script
-        for u in ioni:
-            df = input_df.loc[input_df.u.values == u]
-            wave = df.wavelength.values*1e4
+    # use when I want to provide one particular spectrum
+    if manual == True:
+        if raw == 'y': 
+            wave = input_df.wavelength.values*1e4
             nu = 2.998e18/wave
-            fnu = df.spectrum.values/nu
+            fnu = input_df.spectrum.values/nu
             fnu = fnu[::-1] # values were backwards
             wave = wave[::-1] # values were backwards
+        else:
+            wave = input_df.wavelength.values
+            fnu = input_df.spectrum.values
 
-            con = np.concatenate([fnu[lo:loc+1],fnu[hic-1:hi]])
-            wavcon = np.concatenate([wave[lo:loc+1],wave[hic-1:hi]])
-            f = interp1d(wavcon,con)
-            con = f(wave[lo:hi])
+        con = np.concatenate([fnu[lo:loc+1],fnu[hic-1:hi]])
+        wavcon = np.concatenate([wave[lo:loc+1],wave[hic-1:hi]])
+        f = interp1d(wavcon,con)
+        con = f(wave[lo:hi])
 
-            ew = np.trapz(fnu[lo:hi]/con-1,wave[lo:hi])
-            #print('U: %s, W: %s'%(u,ew))
-            line_ew.append(ew)
+        ew = np.trapz(fnu[lo:hi]/con-1,wave[lo:hi])
+        line_ew.append(ew)
+                  
+    # otherwise runs on full input df (with 11 ionization spectra)
     else:
         ulow = -3.5
         rangeit = np.concatenate((np.arange(ulow,-1.4,0.2),[-1.25,-1.]))
