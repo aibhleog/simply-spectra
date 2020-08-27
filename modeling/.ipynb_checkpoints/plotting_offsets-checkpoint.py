@@ -43,8 +43,7 @@ df.loc[df.offset.values > 800, 'offset'] = np.nan
 
 plt.figure(figsize=(8,5.5))
 plt.scatter(df.offset,df.wciii,s=100,edgecolor='k',alpha=0.8)
-plt.scatter([197,236],[16.23,16.23],s=500,color='r',marker='^',edgecolor='k')
-plt.plot([197,236],[16.23,16.23],ls=':',lw=2.5,color='k',zorder=0)
+
 
 plt.xlabel('CIV offset from systemic [km/s]')
 plt.ylabel('CIII] equivalent width [$\AA$]')
