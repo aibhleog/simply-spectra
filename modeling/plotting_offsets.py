@@ -40,16 +40,20 @@ except KeyError: # hopefully will only have to run this once
     
 # looking at figure
 df.loc[df.offset.values > 800, 'offset'] = np.nan
+#df = df.query('stars == "binary" and mass == 300').copy()
 
 plt.figure(figsize=(8,5.5))
-plt.scatter(df.offset,df.wciii,s=100,edgecolor='k',alpha=0.8)
+ca = plt.scatter(df.offset,df.wciii,s=100,c=df.zneb,edgecolor='k',alpha=0.8,cmap='viridis',label='Cloudy models')
+plt.scatter([197,236],[16.23,16.23],s=300,color='#A40C37',marker='X',edgecolor='k',label='z=7.5 galaxy')
+plt.plot([197,236],[16.23,16.23],lw=2.5,color='k',zorder=0)
 
-
+plt.legend(loc=3,bbox_to_anchor=(0,0.02))
+plt.colorbar(ca,label='nebular metallicity [Z${\odot}$]')
 plt.xlabel('CIV offset from systemic [km/s]')
 plt.ylabel('CIII] equivalent width [$\AA$]')
 
 plt.tight_layout()
-plt.savefig('../spectral-secrets/vis/ciii_vs_civ_offsets.pdf')
+#plt.savefig('../spectral-secrets/vis/ciii_vs_civ_offsets.pdf')
 plt.show()
 plt.close()
 

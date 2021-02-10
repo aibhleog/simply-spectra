@@ -104,7 +104,7 @@ for indx in range(len(zneb)):
     plt.xlabel('rest wavelength [$\AA$]',fontsize=16,labelpad=5)
 
     plt.tight_layout()
-    plt.savefig('plots-data/pcygni-profile_%s_age%sz%s_%s.pdf'%(stars,age,zneb[indx],mass))
+    #plt.savefig('plots-data/pcygni-profile_%s_age%sz%s_%s.pdf'%(stars,age,zneb[indx],mass))
     plt.show()
     plt.close()
 # ------------------------------------------ #

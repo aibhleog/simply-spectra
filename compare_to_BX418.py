@@ -1,13 +1,14 @@
 '''
-Comparing the spectrum of BX418 (from Erb et al. 2010) to a 
-particular galaxy's spectrum.  Will also be measuring the
-velocity offsets from Lya, CIII], & other lines.
+Comparing the spectrum of BX418 (from Erb et al. 2010). 
+Will also be measuring the velocity offsets from 
+Lya, CIII], & other lines.
 '''
 
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.optimize import curve_fit
+import matplotlib.gridspec as gridspec
 import os
 
 __author__ = 'Taylor Hutchison'
@@ -99,3 +100,4 @@ for l,w in lines.items():
     plt.show()
     plt.close('all')
     print()
+    
