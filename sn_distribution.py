@@ -29,6 +29,7 @@ assert len(date) > 0, f"Need to enter the date the data were taken. "\
 print(f'Date entered: "{date}"',end='\n\n')
 # ------------------------------------------------------------- #
 
+markit = [1132,1148]
 
 # reading in data
 print(f'Reading in data for {id_gal}')
@@ -53,11 +54,13 @@ plt.plot(bins, unit_gaussian, label='$\mu$: 0 \n$\sigma$: 1',lw=2, ls='--')
 plt.axvspan(-3*sigma,3*sigma,color='C0',alpha=0.2,zorder=0, label='$\leq|3\sigma|$')
 
 # marking the peak S/N for each index
-plt.axvline(spec.loc[markit[0],'snr'], ls=':', lw=3)
+plt.axvline(spec.loc[markit[0],'snr'], ls=':', lw=3,label='CIV')
 plt.axvline(spec.loc[markit[1],'snr'], ls=':', lw=3)
 # plt.text()
 
 plt.legend()
+plt.gca().set_yticklabels([])
+plt.xlabel('S/N')
 
 plt.tight_layout()
 plt.show()
