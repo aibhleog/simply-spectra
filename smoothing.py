@@ -9,8 +9,6 @@ I've modified it to use scipy & allow for a gaussian shape.
 '''
 
 import numpy as np
-import pandas as pd
-from scipy.interpolate import interp1d
 import scipy.signal.windows as w
 
 
@@ -58,7 +56,8 @@ def see_windows():
     plt.figure(figsize=(8,4.5)); plt.axis('off')
     plt.plot(x,y,label='true',lw=2,ls=':')
     plt.plot(x,yn,label='w/noise')
-
+    plt.text(0.4,0.8,f'window size: {window_len}',transform=plt.gca().transAxes,fontsize=16)
+    
     for f in ['flat','gaussian','hann','hamming','bartlett','blackman']:
         s = smooth(yn,window_len,window=f)
         plt.plot(x,s,label=f,lw=1)
