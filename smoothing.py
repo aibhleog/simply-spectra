@@ -9,6 +9,7 @@ I've modified it to use scipy & allow for a gaussian shape.
 '''
 
 import numpy as np
+import matplotlib.pyplot as plt
 import scipy.signal.windows as w
 
 
@@ -43,7 +44,7 @@ def smooth(x,window_len=11,window='hann',sigma=2):
     return y
 
 
-def see_windows():
+def see_smoothing():
     '''
     Just a function that can be used to plot what this can look 
     like for the different filters.  Feel free to change it up.
@@ -63,6 +64,37 @@ def see_windows():
         plt.plot(x,s,label=f,lw=1)
 
     plt.legend(ncol=3,loc=3,bbox_to_anchor=(0.1,-0.5))
+    plt.tight_layout()
+    plt.show()
+    plt.close()
+    
+def see_windows():
+    '''
+    Just a function that can be used to visualize the different
+    smoothing windows.
+    '''
+    window_len = 20
+    filts = ['flat', 'gaussian', 'hann', 'hamming', 'bartlett', 'blackman']
+
+    plt.figure(figsize=(7,4.5)); plt.axis('off')
+    plt.text(0.7,0.82,f'window size: {window_len}',transform=plt.gca().transAxes,fontsize=13.5)
+
+    i = 0
+    for f in ['flat', 'gaussian', 'hann', 'hamming', 'bartlett', 'blackman']:
+        label = f # assigning it so I can add the sigma for gaussian
+
+        if f == 'flat': 
+            wfilt = np.ones(window_len)
+        elif f == 'gaussian': 
+            wfilt = eval('w.'+f+'(window_len,2)')
+            label = f'{f}\n$\sigma$=2' # adding note about sigma
+        else: 
+            wfilt = eval('w.'+f+'(window_len)')
+
+        plt.plot(wfilt,label=label,color=f'C{i+2}') # so the color matches the other plot
+        i += 1
+
+    plt.legend(ncol=3,loc=3,bbox_to_anchor=(0.02,-0.5))
     plt.tight_layout()
     plt.show()
     plt.close()
