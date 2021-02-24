@@ -73,7 +73,7 @@ def see_windows():
     Just a function that can be used to visualize the different
     smoothing windows.
     '''
-    window_len = 20
+    window_len = 19
     filts = ['flat', 'gaussian', 'hann', 'hamming', 'bartlett', 'blackman']
 
     plt.figure(figsize=(7,4.5)); plt.axis('off')
