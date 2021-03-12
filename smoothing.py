@@ -98,3 +98,53 @@ def see_windows():
     plt.tight_layout()
     plt.show()
     plt.close()
+    
+
+def double_smooth(x,window_len=5,width=11,sigma=2):
+    '''
+    This function smooths a spectrum using a double gaussian with a
+    specified window size & sigma, separated by a width.
+    '''
+    if window_len < 3: # too small, doesn't smooth
+        return x
+
+    # making double gaussian
+    window = 'gaussian' # requires sigma input
+    w_one = eval('w.' + window + '(window_len,sigma)')
+    
+    if width % 2 == 0: w = np.concatenate((w_one,np.zeros(width),w_one,[0]))
+    else: w = np.concatenate((w_one,np.zeros(width),w_one))
+    
+    
+    # np.r_ turns a list into an array, in this case it works like np.concatenate
+    # s will be longer than x based on the window_len (will need to crop it)
+    full_window_len = len(w)
+    s = np.r_[x[full_window_len-1:0:-1],x,x[-2:-full_window_len-1:-1]]
+    
+
+    # the actual smoothing line
+    y = np.convolve(w/w.sum(), s, mode='valid')
+    
+    # y will be larger than x based upon the window_len size
+    # for now, I've written in a return that slices out the original section
+    h0 = int(window_len/2)
+    h = int(full_window_len/2)
+    y = y[h0:-(h+(h-h0))] # removing the increase in array size due to window_len+width
+    return y
+    
+    
+
+def rebin_spec(wave, specin, wavnew):
+	'''	
+	Given wavelength, a spectrum, and new wavelength array, this
+    function resamples the spectrum to match new array.
+	'''
+	import numpy as np
+	from pysynphot import observation
+	from pysynphot import spectrum
+
+	spec = spectrum.ArraySourceSpectrum(wave=wave, flux=specin,keepneg=True)
+	f = np.ones(len(wave))
+	filt = spectrum.ArraySpectralElement(wave, f, waveunits='angstrom')
+	obs = observation.Observation(spec, filt, binset=wavnew, force='taper')
+	return obs.binflux
