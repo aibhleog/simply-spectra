@@ -66,7 +66,7 @@ plt.close()
 
 # running through ages
 for age in np.arange(6,8.1,0.2):
-    plt.figure(figsize=(9,8))
+    plt.figure(figsize=(9,8.5))
     gs = gridspec.GridSpec(2,1,height_ratios=[1,1])#,hspace=0.3)
     ax1 = plt.subplot(gs[0]) # CIV1548
     ax2 = plt.subplot(gs[1]) # CIV5808
@@ -82,31 +82,31 @@ for age in np.arange(6,8.1,0.2):
         # zoom spec to be around CIV1548 lines
         bpass_zoom = bpass.query('1500 < wavelength < 1600').copy()
         bpass_zoom['spectrum'] /= bpass_zoom['spectrum'].mean()
-        ax1.plot(bpass_zoom.wavelength,bpass_zoom.spectrum,label=f'{Zs[i]}',\
+        ax1.plot(bpass_zoom.wavelength,bpass_zoom.spectrum,label=f'{Zs[i]}'+' $Z_{\odot}$',\
                  lw=1.5+0.15*i,color=colors[i])
 
 
         # zoom spec to be around CIV 5808 lines
         bpass_zoom = bpass.query('5700 < wavelength < 5900').copy()
         bpass_zoom['spectrum'] /= bpass_zoom['spectrum'].mean()
-        ax2.plot(bpass_zoom.wavelength,bpass_zoom.spectrum,label=f'{Zs[i]}',\
+        ax2.plot(bpass_zoom.wavelength,bpass_zoom.spectrum,label=f'{Zs[i]}'+' $Z_{\odot}$',\
                  lw=1.5+0.15*i,color=colors[i])
 
 
+    ax1.text(0.04,0.87,'BPASS models, $\leq%s$M$_{\odot}$'%m_max,fontsize=15, transform=ax1.transAxes)
     ax1.text(0.8,0.1,f'log(age)={"{:.1f}".format(age)}',fontsize=15,\
              transform=ax1.transAxes)
     ax2.text(0.8,0.87,f'log(age)={"{:.1f}".format(age)}',fontsize=15,\
              transform=ax2.transAxes)
 
-    ax1.legend(loc=3)
     ax1.set_xlabel('wavelength [$\AA$]')
     ax1.set_ylabel('normalized')
     ax1.set_ylim(0.27,1.77)
 
-    ax2.legend(loc=3)
+    ax2.legend(loc=3,fontsize=13)
     ax2.set_xlabel('wavelength [$\AA$]')
     ax2.set_ylabel('normalized')
-    ax2.set_ylim(0.9,1.1)
+    ax2.set_ylim(0.88,1.1)
 
     plt.tight_layout()
     plt.savefig(f'plots-data/bpass-WR-carbon/redbump-age{"{:.1f}".format(age)}-{m_max}Msol.pdf')
