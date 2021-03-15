@@ -1,10 +1,8 @@
 '''
-Looking into the line strengths of lines like CIV from the Cloudy models
-to see how they compare with the output 1D spectra.
 
-For example, in the line strength tables I generate, do they include 
-stellar absorption in the line fluxes they list?  Like, the CIV values,
-are they the absolute values or have they had the absorption subtracted out?
+Investigating the CIV features and how the WR carbon-dominated contributions
+affect the shape and emission.
+
 '''
 
 __author__ = 'Taylor Hutchison'
