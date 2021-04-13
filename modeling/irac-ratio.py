@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 from cloudy_func import * 
 
 
+
 # the plot
 
 fig, ax1 = plt.subplots(1,1,figsize=(11,5.25))
@@ -46,7 +47,6 @@ for s in range(2):
                 spec = get_cloudy_spec(fold[s],imf[s],a,z,zneb=zn)
                 df = get_cloudy_table(fold[s],a,z,zneb=zn)
 
-                #ciii_ew = get_cloudy_ew('ciii',spec)
                 civ = df['CIV1548'].values.copy() + df['CIV1551'].values.copy()
                 ciii = df['[CIII]1907'].values.copy() + df['CIII]1909'].values.copy() 
                 ratio = civ / ciii
@@ -65,7 +65,6 @@ for s in range(2):
                 spec = get_cloudy_spec(fold[s],imf[s],a,z,zneb=zn)
                 df = get_cloudy_table(fold[s],a,z,zneb=zn)
 
-                #ciii_ew = get_cloudy_ew('ciii',spec)
                 civ = df['CIV1548'].values.copy() + df['CIV1551'].values.copy()
                 ciii = df['[CIII]1907'].values.copy() + df['CIII]1909'].values.copy() 
                 ratio = civ / ciii
@@ -103,10 +102,7 @@ for s in range(2):
 #         count += 1
     
     ax.set_title(names[s],fontsize=15.5)
-#     ax.errorbar(irac[0],rwc2[0],xerr=iracerr,marker='*',color='#F4DCD7',ms=25,ecolor='k',capsize=3,capthick=1.5,zorder=3)
-#     ax.scatter(irac,rwc2,marker='*',s=700,color='none',edgecolor='k',zorder=4)
-#     ax.plot([irac[0],irac[0]],[rwc1[0],rwc2[0]+0.3],ls=':',color='k',zorder=5)
-    ax.errorbar(irac[0],rwc1[0],xerr=iracerr,marker='*',color='#962A13',ms=25,ecolor='k',markeredgecolor='k',capsize=3,capthick=1.5,zorder=6)
+    ax.errorbar(irac[0],c32[0],xerr=iracerr,marker='*',color='#962A13',ms=25,ecolor='k',markeredgecolor='k',capsize=3,capthick=1.5,zorder=6)
     
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
@@ -220,8 +216,8 @@ plt.close()
 #     ax.set_title(names[s],fontsize=15.5)
 #     ax.errorbar(irac[0],rwc2[0],xerr=iracerr,marker='*',color='#F4DCD7',ms=25,ecolor='k',capsize=3,capthick=1.5,zorder=3)
 #     ax.scatter(irac,rwc2,marker='*',s=700,color='none',edgecolor='k',zorder=4)
-#     ax.plot([irac[0],irac[0]],[rwc1[0],rwc2[0]+0.3],ls=':',color='k',zorder=5)
-#     ax.errorbar(irac[0],rwc1[0],xerr=iracerr,marker='*',color='#962A13',ms=25,ecolor='k',markeredgecolor='k',capsize=3,capthick=1.5,zorder=6)
+#     ax.plot([irac[0],irac[0]],[c32[0],rwc2[0]+0.3],ls=':',color='k',zorder=5)
+#     ax.errorbar(irac[0],c32[0],xerr=iracerr,marker='*',color='#962A13',ms=25,ecolor='k',markeredgecolor='k',capsize=3,capthick=1.5,zorder=6)
     
 #     plt.xticks(fontsize=16)
 #     plt.yticks(fontsize=16)
@@ -300,8 +296,8 @@ plt.close()
 # ax.set_title(names[s],fontsize=16.5)
 # ax.errorbar(irac[0],rwc2[0],xerr=iracerr,marker='*',color='#F4DCD7',ms=25,ecolor='k',capsize=3,capthick=1.5,zorder=3)
 # ax.scatter(irac,rwc2,marker='*',s=700,color='none',edgecolor='k',zorder=4)
-# ax.plot([irac[0],irac[0]],[rwc1[0],rwc2[0]+0.3],ls=':',color='k',zorder=5)
-# ax.errorbar(irac[0],rwc1[0],xerr=iracerr,marker='*',color='#962A13',ms=25,ecolor='k',markeredgecolor='k',capsize=3,capthick=1.5,zorder=6)
+# ax.plot([irac[0],irac[0]],[c32[0],rwc2[0]+0.3],ls=':',color='k',zorder=5)
+# ax.errorbar(irac[0],c32[0],xerr=iracerr,marker='*',color='#962A13',ms=25,ecolor='k',markeredgecolor='k',capsize=3,capthick=1.5,zorder=6)
 
 # plt.xticks(fontsize=16)
 # plt.yticks(fontsize=16)
@@ -340,8 +336,8 @@ plt.close()
 # ax.set_title('AGN Models',fontsize=16.5)
 # ax.errorbar(irac[0],rwc2[0],xerr=iracerr,marker='*',color='#F4DCD7',ms=25,ecolor='k',capsize=3,capthick=1.5,zorder=3)
 # ax.scatter(irac,rwc2,marker='*',s=700,color='none',edgecolor='k',zorder=4)
-# ax.plot([irac[0],irac[0]],[rwc1[0],rwc2[0]+0.3],ls=':',color='k',zorder=5)
-# ax.errorbar(irac[0],rwc1[0],xerr=iracerr,marker='*',color='#962A13',ms=25,ecolor='k',markeredgecolor='k',capsize=3,capthick=1.5,zorder=6)
+# ax.plot([irac[0],irac[0]],[c32[0],rwc2[0]+0.3],ls=':',color='k',zorder=5)
+# ax.errorbar(irac[0],c32[0],xerr=iracerr,marker='*',color='#962A13',ms=25,ecolor='k',markeredgecolor='k',capsize=3,capthick=1.5,zorder=6)
     
 # plt.yscale('log')
 # ax.set_xlim(-0.48,1.41)

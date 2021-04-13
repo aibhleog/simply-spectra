@@ -22,20 +22,22 @@ def gaussian(xaxis, mean, A, sig, offset):
 	return A * np.exp(-np.power(xaxis-mean, 2.) / (2*np.power(sig, 2.))) + offset
 
 
+id_gal = 'z7_GND_42912'
+date = '2020feb27'
 
 # -- prompting user for galaxy ID name & date of observation -- #
 # -- ID of galaxy
-id_gal = input('Type ID name & press Enter:  ')
-# making sure something was entered
-assert len(id_gal) > 0, f"Need to enter an ID name. "\
-	f"Currently, the ID name is: \n \t\t  id_gal = {id_gal}"
-print(f'ID entered: "{id_gal}"',end='\n\n')
+# id_gal = input('Type ID name & press Enter:  ')
+# # making sure something was entered
+# assert len(id_gal) > 0, f"Need to enter an ID name. "\
+# 	f"Currently, the ID name is: \n \t\t  id_gal = {id_gal}"
+# print(f'ID entered: "{id_gal}"',end='\n\n')
 
 # # -- Date of Observation
-date = input('Type date & press Enter:  ')
-assert len(date) > 0, f"Need to enter the date the data were taken. "\
-	f"Currently, the date is: \n \t\t  date = {date}"
-print(f'Date entered: "{date}"',end='\n\n')
+# date = input('Type date & press Enter:  ')
+# assert len(date) > 0, f"Need to enter the date the data were taken. "\
+# 	f"Currently, the date is: \n \t\t  date = {date}"
+# print(f'Date entered: "{date}"',end='\n\n')
 # # ------------------------------------------------------------- #
 
 
