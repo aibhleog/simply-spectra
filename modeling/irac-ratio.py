@@ -14,6 +14,7 @@ from cloudy_func import *
 
 
 
+
 # the plot
 
 fig, ax1 = plt.subplots(1,1,figsize=(11,5.25))
@@ -102,20 +103,42 @@ for s in range(2):
 #         count += 1
     
     ax.set_title(names[s],fontsize=15.5)
-    ax.errorbar(irac[0],c32[0],xerr=iracerr,marker='*',color='#962A13',ms=25,ecolor='k',markeredgecolor='k',capsize=3,capthick=1.5,zorder=6)
+    ax.errorbar(irac[0],c32[0],xerr=iracerr,marker='*',color='#962A13',ms=25,ecolor='k',markeredgecolor='k',capsize=3,capthick=1.5,zorder=8)
+    ax.plot([irac[0],irac[0]],[c32[1],c32[0]],color='k')
+    ax.errorbar(irac[0],c32[1],xerr=iracerr,marker='*',color='#F4DCD7',ms=25,ecolor='k',markeredgecolor='k',capsize=3,capthick=1.5,zorder=6)
+    ax.scatter(irac[0],c32[1],marker='*',s=700,color='none',edgecolor='k',zorder=4)
+    
+    # error bars to left
+#     ax.errorbar(0.05,c32[0],yerr=c32err,ecolor='k',markeredgecolor='k',capsize=3,capthick=1.5,zorder=8)   
+#     ax.errorbar(0,c32[1],yerr=c32err,ecolor='k',markeredgecolor='k',capsize=3,capthick=1.5,zorder=6)
+    
+    xmin = 0.535 # axis units, not data lol)
+    xmax = 0.8082 # axis units, not data lol)
+    ymin= c32[1]-c32err[0][0]
+    ymax= c32[1]+c32err[1][0]
+    ax.axhspan(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax,facecolor='#E1A396',zorder=0,alpha=0.5)
+    
+    xmin = 0.535 # axis units, not data lol)
+    xmax = 0.8082 # axis units, not data lol)
+    ymin= c32[0]-c32err[0][0]
+    ymax= c32[0]+c32err[1][0]
+    ax.axhspan(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax,facecolor='#962A13',zorder=0,alpha=0.5)
+    
     
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
     plt.yscale('log')
 
     ax.set_xlim(-0.48,1.41)
-    ax.set_ylim(0.0008,2.5)
+    ax.set_ylim(0.0008,1.7)
     ax.set_ylabel(r'CIV$\,\lambda$1548,1551 / CIII]$\,\lambda$1907,1909',fontsize=14,labelpad=1)
     ax.set_xlabel('[3.6]$\endash$[4.5] [mag]',fontsize=14)
 
 print()
 
 plt.tight_layout()
+plt.savefig(f'plots-data/measurements.pdf')
+plt.savefig('/home/aibhleog/Documents/papers/mine/figures/irac-ratio.pdf')
 plt.show()
 plt.close()
 
