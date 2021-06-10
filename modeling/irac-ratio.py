@@ -12,9 +12,6 @@ __email__ = 'aibhleog@tamu.edu'
 import matplotlib.pyplot as plt
 from cloudy_func import * 
 
-
-
-
 # the plot
 
 fig, ax1 = plt.subplots(1,1,figsize=(11,5.25))
@@ -137,8 +134,8 @@ for s in range(2):
 print()
 
 plt.tight_layout()
-plt.savefig(f'plots-data/measurements.pdf')
-plt.savefig('/home/aibhleog/Documents/papers/mine/figures/irac-ratio.pdf')
+# plt.savefig(f'plots-data/measurements.pdf')
+# plt.savefig('/home/aibhleog/Documents/papers/mine/figures/irac-ratio.pdf')
 plt.show()
 plt.close()
 
