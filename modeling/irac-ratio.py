@@ -13,7 +13,8 @@ import matplotlib.pyplot as plt
 from cloudy_func import * 
 
 
-#
+
+
 # the plot
 
 fig, ax1 = plt.subplots(1,1,figsize=(11,5.25))
@@ -28,8 +29,6 @@ imf = [300,100]
 names = [r'BPASS SPs with binaries, ${\rm M}^{up}_{\rm IMF}$: 300 M$_{\odot}$',\
          r'BPASS SPs no binaries, ${\rm M}^{up}_{\rm IMF}$: 100 M$_{\odot}$']
 fold = ['binary_cont_300','single_cont_100']
-
-new_u = [0,5,7,8,9,10] # the table covers a smaller range of u somehow
 
 cmap = plt.get_cmap('viridis')
 acount = 0
@@ -52,7 +51,6 @@ for s in range(2):
                 ratio = civ / ciii
                 
                 m36,m45 = get_cloudy_norm_spec(spec)
-                m36,m45 = m36[new_u], m45[new_u] # the table covers a smaller range of U
                 
                 ax.plot(m36-m45,ratio,color=colors[indx],lw=2.,ls=zmet[ncount],zorder=1)
                 ax.scatter(m36[0]-m45[0],ratio[0],marker='o',lw=2.,facecolor='none',edgecolor=colors[indx],s=40)
@@ -70,7 +68,6 @@ for s in range(2):
                 ratio = civ / ciii
                 
                 m36,m45 = get_cloudy_norm_spec(spec)
-                m36,m45 = m36[new_u], m45[new_u] # the table covers a smaller range of U
                 
                 if ncount == 0: plt.plot(m36-m45,ratio,color=colors[indx],lw=0.6)
                 ax.plot(m36-m45,ratio,color=colors[indx],lw=lwe[ncount],ls=zmet[ncount+1])
@@ -130,8 +127,24 @@ for s in range(2):
 
     ax.set_xlim(-0.48,1.41)
     ax.set_ylim(0.0008,1.7)
-    ax.set_ylabel(r'CIV$\,\lambda$1548,1551 / CIII]$\,\lambda$1907,1909',fontsize=14,labelpad=1)
+    ax.set_ylabel(r'CIV / CIII]',fontsize=14,labelpad=1)
     ax.set_xlabel('[3.6]$\endash$[4.5] [mag]',fontsize=14)
+    
+    ax.text(-0.375,0.9,'Stellar Z:',fontsize=14)
+    y = 0.55
+    for z in metallicity:
+        indx = metallicity.index(z)
+        ax.plot([-0.37,-0.21],[y,y],color=colors[indx],lw=2.)
+        ax.text(-0.14,y-0.078*y,'%s Z$_{\odot}$'%(z),fontsize=14)
+        y -= 0.4*y
+
+    count,y = 0,0.0065
+    ax.text(0.762,0.011,'Nebular Z:',fontsize=14)
+    for zn in ['fix to Z$_{\star}$','0.3 Z$_{\odot}$','0.5 Z$_{\odot}$']:
+        ax.plot([0.76,0.93],[y,y],color='k',ls=zmet[count],lw=zlw[count])
+        ax.text(1.0,y-0.078*y,zn,fontsize=14)
+        y -= 0.4*y
+        count += 1
 
 print()
 
