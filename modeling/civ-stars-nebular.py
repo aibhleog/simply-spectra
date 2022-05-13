@@ -1,7 +1,9 @@
-# making a three-panel plot zooming in around CIV for 
-# 1) just stellar populations
-# 2) cloudy+SF
-# 3) cloudy+AGN
+'''
+making a three-panel plot zooming in around CIV for 
+   1) just stellar populations
+   2) cloudy+SF
+   3) cloudy+AGN
+'''
 
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
@@ -17,15 +19,7 @@ def get_n(logage):
     return int((logage - 6)/0.1 + 2)
 
 
-# let's start with something basic
-bZs = ['001','002','004','006','010'] # 10% solar, Z=0.002
-Zs = [0.05,0.1,0.4]#,0.1,0.2,0.3,0.5] # 10% solar
-age = 7 # log(age) 
-m_max = 300 # Msol
-
-# reading in BPASS model
-bhome = '/home/aibhleog/Desktop/catalogs/bpassv2/'
-    
+# making figure
 plt.figure(figsize=(7,11.5))
 gs = gridspec.GridSpec(3,1,height_ratios=[1,1,1],hspace=0)
 ax1 = plt.subplot(gs[0]) # stellar pops
@@ -39,10 +33,16 @@ ax3 = plt.subplot(gs[2]) # cloudy+AGN
 # --------- STELLAR POPS --------- #
 # -------------------------------- #
 
-colors = [plt.get_cmap('Blues')(x) for x in np.linspace(0.3,1,len(Zs))]
 
 # reading in BPASS model
 bhome = '/home/aibhleog/Desktop/catalogs/bpassv2/'
+
+colors = [plt.get_cmap('Blues')(x) for x in np.linspace(0.3,1,len(Zs))]
+bZs = ['001','002','004','006','010'] # Z
+Zs = [0.05,0.1,0.4] # % solar
+age = 7 # log(age) 
+m_max = 300 # Msol
+
 
 for i in range(len(Zs)):
     lab = 'BPASS v2.0, '+f'{Zs[i]}$\,Z_\odot$'
@@ -64,10 +64,10 @@ for i in range(len(Zs)):
 shome = '/home/aibhleog/Desktop/catalogs/starburst99/cont_kroupa_100/'
 
 colors = [plt.get_cmap('Reds')(x) for x in np.linspace(0.3,1,len(Zs))]
-ssp = ['Kroupa','IMF2','IMF17'] # single or binary populations
+ssp = ['Kroupa','IMF2','IMF17'] # IMF slopes available
 imf_name = ['IMF: Kroupa','IMF: -2.0','IMF: -1.7']
 Z = ['001','002','008']  # metallicities used
-spec = ssp[0]
+spec = ssp[0] # just using Kroupa for now
 
 for m in range(len(Z)):
     cols = ['time','wave','loglum','normspec']
@@ -76,10 +76,11 @@ for m in range(len(Z)):
     s99 = df.loc[df['time'] == 1e7].copy()
     s99['lum'] = np.power(10,s99.loglum.values)
 
+	# zoom spec around CIV lines
     s99 = s99.query('1500 < wave < 1600').copy()
     s99.reset_index(inplace=True,drop=True)
     
-    s99['lum'] /= s99.loc[25,'lum'] 
+    s99['lum'] /= s99.loc[25,'lum'] # normalizing
     ax1.plot(s99.wave,s99.lum,color=colors[m],lw=2.5-0.15*m)
 
     
@@ -170,7 +171,6 @@ ax2.set_ylabel('normalized [erg/s/cm$^2$/Hz]',fontsize=16)
 
 U = [-1.5,-2.3,-2.5,-2.7,-3.5]
 Z = [0.1,0.2,0.3,0.5]
-# u = 0
 i = 1
 
 colors = [plt.get_cmap('Greys')(x) for x in np.linspace(0.3,1,len(U))]
