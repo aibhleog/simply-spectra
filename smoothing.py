@@ -134,10 +134,29 @@ def double_smooth(x,window_len=5,width=11,sigma=2):
     
     
 
+'''
+In order to add in the rebinning of the uncertainty -- first, I plan to use a variant of
+the rebinning code used by Dr Jane Rigby:
+
+
+Next, I plan to incorporate the uncertainty rebinning by taking inspiration from this MUSE
+python package's code:
+
+https://mpdaf.readthedocs.io/en/stable/spectrum.html
+https://github.com/musevlt/mpdaf/blob/master/lib/mpdaf/obj/data.py#L1387
+
+and getting to work with pandas (which Dr Rigby's code uses).
+
+'''
+
+
 def rebin_spec(wave, specin, wavnew):
 	'''	
 	Given wavelength, a spectrum, and new wavelength array, this
     function resamples the spectrum to match new array.
+    
+        NOTE: this works fine for the flux density, but uncertainty needs to
+	be treated differently!
 	'''
 	import numpy as np
 	from pysynphot import observation
@@ -148,3 +167,4 @@ def rebin_spec(wave, specin, wavnew):
 	filt = spectrum.ArraySpectralElement(wave, f, waveunits='angstrom')
 	obs = observation.Observation(spec, filt, binset=wavnew, force='taper')
 	return obs.binflux
+
