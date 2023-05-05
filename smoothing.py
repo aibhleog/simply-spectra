@@ -136,12 +136,12 @@ def double_smooth(x,window_len=5,width=11,sigma=2):
 
 '''
 In order to add in the rebinning of the uncertainty -- first, I plan to use a variant of
-the rebinning code used by Dr Jane Rigby:
+the binning code used by Dr Jane Rigby (see lines 65-79):
 
 https://github.com/janerigby/jrr/blob/master/spec.py#L74
 
 Next, I plan to incorporate the uncertainty rebinning by taking inspiration from this MUSE
-python package's code:
+python package's code (see lines 1515-1520 in second link):
 
 https://mpdaf.readthedocs.io/en/stable/spectrum.html
 https://github.com/musevlt/mpdaf/blob/master/lib/mpdaf/obj/data.py#L1387
